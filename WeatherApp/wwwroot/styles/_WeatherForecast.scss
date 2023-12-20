@@ -1,0 +1,73 @@
+﻿/// <reference path="_Variables" />
+
+body {
+    font-family: $primary-font;
+}
+.hide-for-large {
+    @media screen and (min-width: 1023px) {
+        display: none;
+    }
+
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.fahrenheit {
+    display: none;
+}
+
+#unit-toggle {
+    margin-bottom: 2rem;
+}
+
+.weather-forecasts {
+    h2 {
+        font-size: 38px;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+
+        &:last-of-type {
+            margin-top: 2rem;
+        }
+    }
+
+    .weather-forecast {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+
+        &:nth-child(2n+2) {
+            background-color: #ededed;
+        }
+    }
+
+    .weather-forecast-header, .weather-forecast {
+        margin: 0 -0.9375rem;
+
+        @media screen and (min-width: 1023px) {
+            display: flex;
+        }
+
+        p {
+            padding: 0 0.9375rem;
+            margin-bottom: 0;
+
+            @media screen and (min-width: 1023px) {
+                width: 12.5%;
+            }
+        }
+    }
+
+    .weather-forecast-header {
+        padding: 0.5rem;
+        background-color: $light-blue;
+
+        @media screen and (max-width: 1023px) {
+            display: none;
+        }
+
+        p {
+            font-weight: bold;
+            color: white;
+        }
+    }
+}

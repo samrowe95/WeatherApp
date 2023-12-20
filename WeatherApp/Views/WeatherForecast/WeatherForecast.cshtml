@@ -1,0 +1,69 @@
+﻿@using WeatherApp.Helpers
+@using WeatherApp.ViewModels;
+@model IEnumerable<WeatherForecastVM>
+
+@if (Model.Count() > 0)
+{
+    <div class="weather-forecasts">
+        <button id="unit-toggle" type="button">Toggle Unit of Temperature</button>
+
+        @{
+            int count = 0;
+        }
+        @foreach (var previousForecast in Model)
+        {
+            if (count == 0)
+            {
+                <h2>Result</h2>
+                <div class="weather-forecast-header">
+                    <p>Location:</p>
+                    <p>Date:</p>
+                    <p>Current Temp:</p>
+                    <p>Minimum Temp:</p>
+                    <p>Maximum Temp:</p>
+                    <p>Sunrise:</p>
+                    <p>Sunset:</p>
+                    <p>Humidity:</p>
+                </div>
+            }
+            else if (count == 1)
+            {
+                <h2>Previous results</h2>
+                <div class="weather-forecast-header">
+                    <p>Location:</p>
+                    <p>Date:</p>
+                    <p>Current Temp:</p>
+                    <p>Minimum Temp:</p>
+                    <p>Maximum Temp:</p>
+                    <p>Sunrise:</p>
+                    <p>Sunset:</p>
+                    <p>Humidity:</p>
+                </div>
+            }
+            <div class="weather-forecast">
+                <p><span class="hide-for-large">Location: </span>@previousForecast.Location.Name, @previousForecast.Location.Region, @previousForecast.Location.Country</p>
+
+                @{
+                    var previousForecastDay = previousForecast.Forecast.ForecastDay.FirstOrDefault();
+                    if (previousForecastDay != null)
+                    {
+                        var date = previousForecastDay.Date;
+                        var day = date.Day;
+                        <p><span class="hide-for-large">Date: </span>@date.ToString($"dd'{Utilities.GetDaySuffix(day)}' MMMM yyy")</p>
+                    }
+                }
+                <p><span class="hide-for-large">Current Temp: </span><span class="celsius">@(previousForecast.Current.TempC)°C</span> <span class="fahrenheit">@(previousForecast.Current.TempF)°F</span></p>
+
+                @if (previousForecastDay != null)
+                {
+                    <p><span class="hide-for-large">Min Temp: </span><span class="celsius">@(previousForecastDay.Day.MinTempC)°C</span> <span class="fahrenheit">@(previousForecastDay.Day.MinTempF)°F</span></p>
+                    <p><span class="hide-for-large">Max Temp: </span><span class="celsius">@(previousForecastDay.Day.MaxTempC)°C</span> <span class="fahrenheit">@(previousForecastDay.Day.MaxTempF)°F</span></p>
+                    <p><span class="hide-for-large">Sunrise: </span>@previousForecastDay.Astro.Sunrise</p>
+                    <p><span class="hide-for-large">Sunset: </span>@previousForecastDay.Astro.Sunset</p>
+                }
+                <p><span class="hide-for-large">Humidity: </span>@(previousForecast.Current.Humidity)%</p>
+            </div>
+            count++;
+        }
+    </div>
+}

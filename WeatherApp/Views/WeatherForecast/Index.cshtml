@@ -1,0 +1,47 @@
+﻿@using WeatherApp.ViewModels;
+@using WeatherApp.Helpers;
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<WeatherForecastVM> 
+<div class="text-center">
+    <h1 class="display-4">Weather Forecast</h1>
+    <p>Enter your location to see today's weather forecast</p>
+    <p>Pass UK Postcode, US Zipcode, Canada Postalcode, IP address, Latitude/Longitude (decimal degree) or city name</p>
+    <input id="location" type="text" />
+    <button id="find-location" type="submit">Find</button>
+</div>
+
+<output></output>
+<div class="forecast-result">
+    @await Html.PartialAsync("WeatherForecast", Model)
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            let isCelsius = true;
+            $('body').on('click', '#unit-toggle', function () {
+                $('.celsius').toggle();
+                $('.fahrenheit').toggle();                    
+            });
+
+            $('#find-location').on('click', function () {
+                var location = $('#location').val();
+                if (location.length != 0) {
+                    $.ajax({
+                        url: '@Url.Action("GetWeatherForecast", "WeatherForecast")',
+                        method: 'GET',
+                        data: { location: encodeURIComponent(location) }
+                    }).done(function (result) {
+                        $('output').text('');
+                        $('.forecast-result').html(result);
+                    }).fail(function (result) {
+                        $('.forecast-result').html('');
+                        $('output').text("Could not retrieve weather forecast for this location.");
+                    });
+                }               
+            });            
+        });
+    </script>
+}
